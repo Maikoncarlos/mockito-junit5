@@ -1,9 +1,11 @@
 package com.github.maikoncarlos.api.rest.testes.mockito.junit5.services.impl;
 
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.domain.User;
+import com.github.maikoncarlos.api.rest.testes.mockito.junit5.domain.dto.UserDTO;
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.repositories.UserRepository;
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.services.UserService;
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.services.exceptions.UserNotfoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository repository;
 
+    @Autowired
+    private ModelMapper mapper;
+
     @Override
     public User findById(Integer id) {
         Optional<User> userOpt = repository.findById(id);
@@ -25,5 +30,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public User create(UserDTO userDTO) {
+        return repository.save(mapper.map(userDTO, User.class));
     }
 }
