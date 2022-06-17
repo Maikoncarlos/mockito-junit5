@@ -1,5 +1,6 @@
 package com.github.maikoncarlos.api.rest.testes.mockito.junit5.resources.exceptions;
 
+import com.github.maikoncarlos.api.rest.testes.mockito.junit5.services.exceptions.DataIntegrityViolationException;
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.services.exceptions.UserNotfoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +16,22 @@ public class ResponseExceptionsHandler {
     @ExceptionHandler(UserNotfoundException.class)
     public ResponseEntity<StandardError> userNotfound(UserNotfoundException ex, HttpServletRequest request){
         StandardError error = new StandardError(
-
                 LocalDateTime.now(),
                 HttpStatus.NOT_FOUND.toString(),
                 ex.getMessage(),
                 request.getRequestURI()
         );
-
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<StandardError> dataIntegrityViolation(DataIntegrityViolationException ex, HttpServletRequest request){
+        StandardError error = new StandardError(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.toString(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 }

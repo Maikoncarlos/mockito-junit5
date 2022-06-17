@@ -1,9 +1,10 @@
 package com.github.maikoncarlos.api.rest.testes.mockito.junit5.domain;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,7 +19,6 @@ public class User {
     private String name;
 
     @Column(unique = true)
-    @Email
     private String email;
 
     private String password;

@@ -4,6 +4,7 @@ import com.github.maikoncarlos.api.rest.testes.mockito.junit5.domain.User;
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.domain.dto.UserDTO;
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.repositories.UserRepository;
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.services.UserService;
+import com.github.maikoncarlos.api.rest.testes.mockito.junit5.services.exceptions.DataIntegrityViolationException;
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.services.exceptions.UserNotfoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(UserDTO userDTO) {
+        findByEmail(userDTO);
         return repository.save(mapper.map(userDTO, User.class));
+    }
+
+    private void findByEmail(UserDTO userDTO){
+        Optional<User> userOptional = repository.findByEmail(userDTO.getEmail());
+        if(userOptional.isPresent()){
+            throw new DataIntegrityViolationException("Email já cadastrado!");
+        }
     }
 }

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Email;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,6 +16,8 @@ public class UserDTO {
 
     private Integer id;
     private String name;
+
+    @Email(message = "formato inválido")
     private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
