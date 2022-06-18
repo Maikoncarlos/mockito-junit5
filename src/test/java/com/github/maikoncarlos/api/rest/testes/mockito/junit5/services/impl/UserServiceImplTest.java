@@ -3,6 +3,7 @@ package com.github.maikoncarlos.api.rest.testes.mockito.junit5.services.impl;
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.domain.User;
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.domain.dto.UserDTO;
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.repositories.UserRepository;
+import com.github.maikoncarlos.api.rest.testes.mockito.junit5.services.exceptions.UserNotfoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -55,6 +56,20 @@ class UserServiceImplTest {
         assertEquals(ID, response.getId());
         assertEquals(NAME, response.getName());
         assertEquals(EMAIL, response.getEmail());
+
+    }
+
+    @Test
+    @DisplayName("Quando chamar o metodo findById retorna ObjectNotFound")
+    void whenFindByIdThenReturnObjectNotFound(){
+        when(repository.findById(anyInt())).thenThrow( new UserNotfoundException("Objeto não encontrado!"));
+
+        try {
+            serviceImpl.findById(ID);
+        }catch (Exception ex){
+            assertEquals(UserNotfoundException.class, ex.getClass());
+            assertEquals("Objeto não encontrado!", ex.getMessage());
+        }
 
     }
 
