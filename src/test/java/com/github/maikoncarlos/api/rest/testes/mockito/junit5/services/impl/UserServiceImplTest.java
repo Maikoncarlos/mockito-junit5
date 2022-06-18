@@ -49,7 +49,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("Quando chamar o metodo findById retorne uma instancia de User")
+    @DisplayName("Quando chamar o metodo findById retorne um Usuario")
     void whenFindByIdThenReturnUserInstance() {
         when(repository.findById(anyInt())).thenReturn(userOpt);
 
@@ -64,7 +64,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("Quando chamar o metodo findById retorna ObjectNotFound")
+    @DisplayName("Quando chamar o metodo findById retorna excessao ObjectNotFound")
     void whenFindByIdThenReturnObjectNotFound(){
         when(repository.findById(anyInt())).thenThrow( new UserNotfoundException("Objeto não encontrado!"));
 
@@ -78,6 +78,7 @@ class UserServiceImplTest {
     }
 
     @Test
+    @DisplayName("Quando chamar metodo findAll retorna Lista de Usuarios")
     void whenFindAllThenReturnAnListOfUser() {
         when(repository.findAll()).thenReturn(List.of(user));
 
