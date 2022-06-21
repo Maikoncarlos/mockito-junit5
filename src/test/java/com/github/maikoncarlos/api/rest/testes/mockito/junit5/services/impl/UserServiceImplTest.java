@@ -19,7 +19,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class UserServiceImplTest {
@@ -29,6 +29,7 @@ class UserServiceImplTest {
     public static final String EMAIL     = "maikon@gmail.com";
     public static final String PASSWORD  = "123";
     public static final int INDEX        = 0;
+    public static final String OBJETO_NAO_ENCONTRADO = "Objeto não encontrado!";
 
     @InjectMocks
     private UserServiceImpl serviceImpl;
@@ -67,13 +68,13 @@ class UserServiceImplTest {
     @Test
     @DisplayName("Quando chamar o metodo findById retorna excessao ObjectNotFound")
     void whenFindByIdThenReturnObjectNotFound(){
-        when(repository.findById(anyInt())).thenThrow( new UserNotfoundException("Objeto não encontrado!"));
+        when(repository.findById(anyInt())).thenThrow( new UserNotfoundException(OBJETO_NAO_ENCONTRADO));
 
         try {
             serviceImpl.findById(ID);
         }catch (Exception ex){
             assertEquals(UserNotfoundException.class, ex.getClass());
-            assertEquals("Objeto não encontrado!", ex.getMessage());
+            assertEquals(OBJETO_NAO_ENCONTRADO, ex.getMessage());
         }
 
     }
@@ -149,7 +150,27 @@ class UserServiceImplTest {
 
 
     @Test
-    void delete() {
+    @DisplayName("Quando chamar o metodo delete de sucesso")
+    void deleteWitchSuccess() {
+        when(repository.findById(anyInt())).thenReturn(userOpt);
+        doNothing().when(repository).deleteById(anyInt());
+
+        serviceImpl.delete(ID);
+
+        verify(repository, times(1)).deleteById(ID);
+    }
+
+    @Test
+    @DisplayName("Quando chamar metodo delete lance excessao UserNotfoundException")
+    void whenDeleteReturnUserNotfoundException(){
+        when(repository.findById(anyInt())).thenThrow( new UserNotfoundException(OBJETO_NAO_ENCONTRADO));
+
+        try {
+            serviceImpl.delete(ID);
+        }catch (Exception ex){
+            assertEquals(UserNotfoundException.class, ex.getClass());
+            assertEquals(OBJETO_NAO_ENCONTRADO, ex.getMessage());
+        }
     }
 
     private void startUsers(){
