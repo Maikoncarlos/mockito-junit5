@@ -64,7 +64,6 @@ class UserControllerTest {
         assertEquals(ID, response.getBody().getId());
         assertEquals(NAME, response.getBody().getName());
         assertEquals(EMAIL, response.getBody().getEmail());
-        assertEquals(PASSWORD, response.getBody().getPassword());
 
     }
 
@@ -84,7 +83,6 @@ class UserControllerTest {
         assertEquals(ID, response.getBody().get(INDEX).getId());
         assertEquals(NAME, response.getBody().get(INDEX).getName());
         assertEquals(EMAIL, response.getBody().get(INDEX).getEmail());
-        assertEquals(PASSWORD, response.getBody().get(INDEX).getPassword());
 
     }
 
@@ -99,7 +97,20 @@ class UserControllerTest {
     }
 
     @Test
-    void update() {
+    void whenUpdateThenReturnSuccess() {
+        when(service.update(any())).thenReturn(user);
+        when(mapper.map(any(), any())).thenReturn(userDTO);
+
+        ResponseEntity<UserDTO> response = userController.update(ID, userDTO);
+
+        assertNotNull(response);
+        assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(ResponseEntity.class, response.getClass());
+
+        assertEquals(ID, response.getBody().getId());
+        assertEquals(NAME, response.getBody().getName());
+        assertEquals(EMAIL, response.getBody().getEmail());
     }
 
     @Test
