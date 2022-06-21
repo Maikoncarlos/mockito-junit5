@@ -28,7 +28,7 @@ class UserServiceImplTest {
     public static final String NAME      = "Maikon";
     public static final String EMAIL     = "maikon@gmail.com";
     public static final String PASSWORD  = "123";
-    public static final int INDEX = 0;
+    public static final int INDEX        = 0;
 
     @InjectMocks
     private UserServiceImpl serviceImpl;
@@ -97,7 +97,7 @@ class UserServiceImplTest {
 
     @Test
     @DisplayName("Quando chamar o metodo create retorne um Usuario")
-    void whenCreateThenReturnSucess() {
+    void whenCreateThenReturnSuccess() {
         when(repository.save(any())).thenReturn(user);
 
         User response = serviceImpl.create(userDTO);
@@ -122,8 +122,31 @@ class UserServiceImplTest {
     }
 
     @Test
-    void update() {
+    @DisplayName("Quando chamar o metodo update retorne uma excessao DataIntegrityViolationException")
+    void whenUpdateThenReturnAnDataIntegrityViolationException() {
+        when(repository.findByEmail(anyString())).thenReturn(userOpt);
+
+        try{
+            userOpt.get().setId(2);
+            serviceImpl.create(userDTO);
+        }catch(Exception ex){
+            assertEquals(DataIntegrityViolationException.class, ex.getClass());
+            assertEquals("Email já cadastrado!", ex.getMessage());
+        }
     }
+
+    @Test
+    @DisplayName("Quando chamar o metodo update retorne um Usuario")
+    void whenUpdateThenReturnSuccess() {
+        when(repository.save(any())).thenReturn(user);
+
+        User response = serviceImpl.update(userDTO);
+
+        assertNotNull(response);
+        assertEquals(User.class, response.getClass());
+        assertEquals(ID, response.getId());
+    }
+
 
     @Test
     void delete() {
