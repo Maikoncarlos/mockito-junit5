@@ -3,6 +3,7 @@ package com.github.maikoncarlos.api.rest.testes.mockito.junit5.services.impl;
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.domain.User;
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.domain.dto.UserDTO;
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.repositories.UserRepository;
+import com.github.maikoncarlos.api.rest.testes.mockito.junit5.services.exceptions.DataIntegrityViolationException;
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.services.exceptions.UserNotfoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,9 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -28,6 +28,7 @@ class UserServiceImplTest {
     public static final String NAME      = "Maikon";
     public static final String EMAIL     = "maikon@gmail.com";
     public static final String PASSWORD  = "123";
+    public static final int INDEX = 0;
 
     @InjectMocks
     private UserServiceImpl serviceImpl;
@@ -86,16 +87,38 @@ class UserServiceImplTest {
 
         assertNotNull(response);
         assertEquals(1, response.size());
-        assertEquals(User.class , response.get(0).getClass());
+        assertEquals(User.class , response.get(INDEX).getClass());
 
-        assertEquals(ID, response.get(0).getId());
-        assertEquals(NAME, response.get(0).getName());
-        assertEquals(EMAIL, response.get(0).getEmail());
-        assertEquals(PASSWORD, response.get(0).getPassword());
+        assertEquals(ID, response.get(INDEX).getId());
+        assertEquals(NAME, response.get(INDEX).getName());
+        assertEquals(EMAIL, response.get(INDEX).getEmail());
+        assertEquals(PASSWORD, response.get(INDEX).getPassword());
     }
 
     @Test
-    void create() {
+    @DisplayName("Quando chamar o metodo create retorne um Usuario")
+    void whenCreateThenReturnSucess() {
+        when(repository.save(any())).thenReturn(user);
+
+        User response = serviceImpl.create(userDTO);
+
+        assertNotNull(response);
+        assertEquals(User.class, response.getClass());
+        assertEquals(ID, response.getId());
+    }
+
+    @Test
+    @DisplayName("Quando chamar o metodo create retorne uma excessao DataIntegrityViolationException")
+    void whenCreateThenReturnAnDataIntegrityViolationException() {
+        when(repository.findByEmail(anyString())).thenReturn(userOpt);
+
+        try{
+            userOpt.get().setId(2);
+            serviceImpl.create(userDTO);
+        }catch(Exception ex){
+            assertEquals(DataIntegrityViolationException.class, ex.getClass());
+            assertEquals("Email já cadastrado!", ex.getMessage());
+        }
     }
 
     @Test
