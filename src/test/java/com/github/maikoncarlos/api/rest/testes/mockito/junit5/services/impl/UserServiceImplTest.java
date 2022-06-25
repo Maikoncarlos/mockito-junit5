@@ -40,8 +40,8 @@ class UserServiceImplTest {
     @Mock
     private ModelMapper mapper;
 
-    private User user;
-    private UserDTO userDTO;
+    private User user = new User();
+    private UserDTO userDTO = new UserDTO();
     private Optional<User> userOpt;
 
     @BeforeEach
@@ -146,6 +146,7 @@ class UserServiceImplTest {
         assertNotNull(response);
         assertEquals(User.class, response.getClass());
         assertEquals(ID, response.getId());
+        assertEquals(PASSWORD, response.getPassword());
     }
 
 
