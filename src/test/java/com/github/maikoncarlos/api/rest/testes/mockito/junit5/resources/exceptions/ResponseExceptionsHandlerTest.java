@@ -20,6 +20,7 @@ class ResponseExceptionsHandlerTest {
 
     public static final String EMAIL_JA_CADASTRADO = "Email já cadastrado";
     public static final String OBJETO_NAO_ENCONTRADO = "Objeto não encontrado!";
+    private static final String STATUS_400 = "400 BAD_REQUEST";
     @InjectMocks
     private ResponseExceptionsHandler exceptionsHandler;
 
@@ -39,7 +40,7 @@ class ResponseExceptionsHandlerTest {
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertEquals(OBJETO_NAO_ENCONTRADO, response.getBody().getError());
         assertEquals(StandardError.class, response.getBody().getClass());
-        assertNotEquals(LocalDateTime.now(), response.getBody().getTimestamp());
+        assertEquals(LocalDateTime.now(), response.getBody().getTimestamp());
         assertNotEquals("/user/2", response.getBody().getPath());
     }
 
@@ -53,5 +54,7 @@ class ResponseExceptionsHandlerTest {
         assertNotNull(response.getBody());
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertEquals(EMAIL_JA_CADASTRADO, response.getBody().getError());
+        assertEquals(STATUS_400, response.getBody().getStatus());
+        assertNotEquals(LocalDateTime.now(), response.getBody().getTimestamp());
     }
 }

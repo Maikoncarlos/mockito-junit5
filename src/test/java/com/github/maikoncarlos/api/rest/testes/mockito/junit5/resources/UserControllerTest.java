@@ -4,6 +4,7 @@ import com.github.maikoncarlos.api.rest.testes.mockito.junit5.domain.User;
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.domain.dto.UserDTO;
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -50,6 +51,7 @@ class UserControllerTest {
     }
 
     @Test
+    @DisplayName("Deve criar um usuario com sucesso")
     void whenFindByIdReturnSuccess() {
         when(service.findById(anyInt())).thenReturn(user);
         when(mapper.map(any(), any())).thenReturn(userDTO);
@@ -64,10 +66,12 @@ class UserControllerTest {
         assertEquals(ID, response.getBody().getId());
         assertEquals(NAME, response.getBody().getName());
         assertEquals(EMAIL, response.getBody().getEmail());
+        assertEquals(PASSWORD, response.getBody().getPassword());
 
     }
 
     @Test
+    @DisplayName("Deve retornar uma lista de usuarios")
     void whenFindAllThenReturnAListUserDTO() {
         when(service.findAll()).thenReturn(List.of(user));
         when(mapper.map(any(), any())).thenReturn(userDTO);
@@ -87,6 +91,7 @@ class UserControllerTest {
     }
 
     @Test
+    @DisplayName("Deve Retorna Status Created")
     void whenCreateThenReturnCreated() {
         when(service.create(any())).thenReturn(user);
 
@@ -97,6 +102,7 @@ class UserControllerTest {
     }
 
     @Test
+    @DisplayName("Deve retornar sucesso quando chamar o metodo update com os dados do usuario")
     void whenUpdateThenReturnSuccess() {
         when(service.update(any())).thenReturn(user);
         when(mapper.map(any(), any())).thenReturn(userDTO);
@@ -114,6 +120,7 @@ class UserControllerTest {
     }
 
     @Test
+    @DisplayName("Deve retornar sucesso quando chamar o metodo delete com o status No Content")
     void whenDeleteThenReturnSuccess() {
         doNothing().when(service).delete(ID);
 
