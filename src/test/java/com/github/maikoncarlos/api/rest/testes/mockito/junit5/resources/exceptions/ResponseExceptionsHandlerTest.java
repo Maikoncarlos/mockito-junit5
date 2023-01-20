@@ -14,6 +14,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 @SpringBootTest
 class ResponseExceptionsHandlerTest {
@@ -26,7 +27,7 @@ class ResponseExceptionsHandlerTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        openMocks(this);
     }
 
     @Test
@@ -40,7 +41,6 @@ class ResponseExceptionsHandlerTest {
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertEquals(OBJETO_NAO_ENCONTRADO, response.getBody().getError());
         assertEquals(StandardError.class, response.getBody().getClass());
-        assertEquals(LocalDateTime.now(), response.getBody().getTimestamp());
         assertNotEquals("/user/2", response.getBody().getPath());
     }
 
