@@ -91,6 +91,25 @@ class UserControllerTest {
     }
 
     @Test
+    @DisplayName("Deve retornar um usuario por Id")
+    void whenFindByIdThenReturnUserDTO() {
+        when(service.findById(anyInt())).thenReturn(user);
+        when(mapper.map(any(), any())).thenReturn(userDTO);
+
+        ResponseEntity<UserDTO> response = userController.findById(anyInt());
+
+        assertNotNull(response);
+        assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(ResponseEntity.class, response.getClass());
+
+        assertEquals(ID, response.getBody().getId());
+        assertEquals(NAME, response.getBody().getName());
+        assertEquals(EMAIL, response.getBody().getEmail());
+
+    }
+
+    @Test
     @DisplayName("Deve Retorna Status Created")
     void whenCreateThenReturnCreated() {
         when(service.create(any())).thenReturn(user);
