@@ -36,13 +36,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public User create(UserDTO userDTO) {
         findByEmail(userDTO);
-        return repository.save(mapper.map(userDTO, User.class));
+        return getSave(userDTO);
     }
 
     @Override
     public User update(UserDTO userDTO) {
         findByEmail(userDTO);
-        return repository.save(mapper.map(userDTO, User.class));
+        return getSave(userDTO);
     }
 
     @Override
@@ -56,5 +56,9 @@ public class UserServiceImpl implements UserService {
         if(userOptional.isPresent() && !userOptional.get().getId().equals(userDTO.getId())){
             throw new DataIntegrityViolationException("Email já cadastrado!");
         }
+    }
+
+    private User getSave(UserDTO userDTO) {
+        return repository.save(mapper.map(userDTO, User.class));
     }
 }
