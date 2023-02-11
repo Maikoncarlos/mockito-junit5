@@ -1,4 +1,4 @@
-package com.github.maikoncarlos.api.rest.testes.mockito.junit5.resources.exceptions;
+package com.github.maikoncarlos.api.rest.testes.mockito.junit5.controllers.exceptions;
 
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.services.exceptions.DataIntegrityViolationException;
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.services.exceptions.UserNotfoundException;

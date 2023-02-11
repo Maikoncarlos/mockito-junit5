@@ -1,4 +1,4 @@
-package com.github.maikoncarlos.api.rest.testes.mockito.junit5.resources.exceptions;
+package com.github.maikoncarlos.api.rest.testes.mockito.junit5.controllers.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

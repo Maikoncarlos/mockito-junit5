@@ -1,4 +1,4 @@
-package com.github.maikoncarlos.api.rest.testes.mockito.junit5.resources;
+package com.github.maikoncarlos.api.rest.testes.mockito.junit5.controllers;
 
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.domain.User;
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.domain.dto.UserDTO;
@@ -51,7 +51,7 @@ class UserControllerTest {
     }
 
     @Test
-    @DisplayName("Deve criar um usuario com sucesso")
+    @DisplayName("Deve retornar o usuario pelo Id com sucesso")
     void whenFindByIdReturnSuccess() {
         when(service.findById(anyInt())).thenReturn(user);
         when(mapper.map(any(), any())).thenReturn(userDTO);

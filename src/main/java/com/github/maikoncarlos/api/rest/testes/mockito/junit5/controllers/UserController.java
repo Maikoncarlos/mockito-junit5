@@ -1,4 +1,4 @@
-package com.github.maikoncarlos.api.rest.testes.mockito.junit5.resources;
+package com.github.maikoncarlos.api.rest.testes.mockito.junit5.controllers;
 
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.domain.dto.UserDTO;
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.services.UserService;

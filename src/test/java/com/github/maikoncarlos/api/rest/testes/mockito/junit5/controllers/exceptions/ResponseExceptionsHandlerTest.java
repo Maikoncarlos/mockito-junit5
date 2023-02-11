@@ -1,11 +1,10 @@
-package com.github.maikoncarlos.api.rest.testes.mockito.junit5.resources.exceptions;
+package com.github.maikoncarlos.api.rest.testes.mockito.junit5.controllers.exceptions;
 
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.services.exceptions.DataIntegrityViolationException;
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.services.exceptions.UserNotfoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
