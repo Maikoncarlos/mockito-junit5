@@ -17,7 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -42,7 +43,7 @@ class UserServiceImplTest {
 
     private User user = new User();
     private UserDTO userDTO = new UserDTO();
-    private Optional<User> userOpt;
+    private Optional<User> userOpt = Optional.of(new User());
 
     @BeforeEach
     void setUp() {
@@ -51,7 +52,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("Quando chamar o metodo findById retorne um Usuario")
+    @DisplayName("Quando chamar o metodo findById retorne o Usuario do Id correspondente")
     void whenFindByIdThenReturnUserInstance() {
         when(repository.findById(anyInt())).thenReturn(userOpt);
 
