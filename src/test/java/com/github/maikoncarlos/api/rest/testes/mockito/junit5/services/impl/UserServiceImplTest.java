@@ -81,7 +81,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("Quando chamar metodo findAll retorna Lista de Usuarios")
+    @DisplayName(" Quando chamar metodo findAll retorna Lista de Usuario ordenada por nome ")
     void whenFindAllThenReturnAnListOfUser() {
         when(repository.findAll()).thenReturn(List.of(user));
 
