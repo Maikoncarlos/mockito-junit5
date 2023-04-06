@@ -3,6 +3,7 @@ package com.github.maikoncarlos.api.rest.testes.mockito.junit5.controllers;
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.domain.User;
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.domain.dto.UserDTO;
 import com.github.maikoncarlos.api.rest.testes.mockito.junit5.services.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
+@Slf4j
 class UserControllerTest {
 
     public static final Integer ID       = 1;
@@ -57,6 +59,8 @@ class UserControllerTest {
         when(mapper.map(any(), any())).thenReturn(userDTO);
 
         ResponseEntity<UserDTO> response = userController.findById(ID);
+
+        log.info("reposnse: {}", response);
 
         assertNotNull(response);
         assertNotNull(response.getBody());
